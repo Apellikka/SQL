@@ -172,7 +172,10 @@ CREATE TABLE sali (
 	);
 	
 	
-	"QUERY 1"
+	"QUERY 1
+	Hae seuraavia tietoja Kehonhuolto-nimiseen kategoriaan kuuluvien ryhmäliikuntatuntien lukujärjestystunneista: 
+	viikonpäivä, alkamisaika, ryhmäliikuntatunnin nimi ja kesto.
+	"
 	SELECT lj.viikonpaiva, lj.alkamisaika, rl.rlnimi, rl.kesto
 	FROM ljtunti lj, rltunti rl, kategoria k
 	WHERE lj.rltunnus = rl.rltunnus
@@ -180,7 +183,11 @@ CREATE TABLE sali (
 	AND knimi = 'Kehonhuolto'
 	ORDER BY viikonpaiva, alkamisaika, rlnimi ASC;
 	
-	"QUERY 2"
+	"QUERY 2
+	Hae seuraavia tietoja Kehonhuolto-nimiseen kategoriaan kuuluvien ryhmäliikuntatuntien lukujärjestystunneista, 
+	joiden vaikeustaso on 2 tai kesto vähintään 60 minuuttia: 
+	viikonpäivä, alkamisaika, ryhmäliikuntatunnin nimi, kesto ja vaikeustaso.
+	"
 	SELECT lj.viikonpaiva, lj.alkamisaika, rl.rlnimi, rl.kesto, rl.taso
 	FROM ljtunti lj, rltunti rl, kategoria k
 	WHERE lj.rltunnus = rl.rltunnus
@@ -189,14 +196,18 @@ CREATE TABLE sali (
 	AND (rl.taso >= 2 OR rl.kesto >= 60)
 	ORDER BY viikonpaiva, alkamisaika, rlnimi ASC;
 	
-	"QUERY 3"
+	"QUERY 3
+	Hae seuraavat tiedot lyhimmälle ryhmäliikuntatunnille: tunnin nimi ja kesto.
+	"
 	SELECT rlnimi, kesto
 	FROM rltunti
 	WHERE kesto = (SELECT MIN(kesto)
 				FROM rltunti)
 	ORDER BY rlnimi ASC;
 	
-	"QUERY 4"
+	"QUERY 4
+	Hae seuraavat tiedot lyhimmälle ryhmäliikuntatunnille: tunnin nimi, kesto ja tunnin kategorian nimi. 
+	"
 	SELECT rlnimi, kesto, knimi
 	FROM rltunti rl, kategoria k
 	WHERE kesto = (SELECT MIN(kesto)
@@ -204,7 +215,10 @@ CREATE TABLE sali (
 	AND rl.ktunnus = k.ktunnus
 	ORDER BY rlnimi ASC;
 	
-	"QUERY 5"
+	"QUERY 5
+	Hae seuraavat tiedot lyhimmälle Kehonhuolto-nimiseen kategoriaan kuuluvalle ryhmäliikuntatunnille:
+	tunnin nimi, kesto ja tunnin kategorian nimi.
+	"
 	SELECT rlnimi, kesto, knimi
 	FROM rltunti, kategoria
 	WHERE kesto = (SELECT MIN(kesto)
@@ -214,7 +228,10 @@ CREATE TABLE sali (
 	AND rltunti.ktunnus = kategoria.ktunnus
 	ORDER BY rlnimi ASC;
 	
-	"QUERY 6"
+	"QUERY 6
+	Hae tunnukset ja nimet niille ohjaajille, jotka voivat ohjata sekä Spinning-nimisen kategorian
+	tunteja että Kehonhuolto-nimisen kategorian tunteja.
+	"
 	SELECT DISTINCT o.otunnus, onimi
 	FROM ohjaaja o, voi_ohjata vo, kategoria k, rltunti rl
 	WHERE o.otunnus = vo.otunnus
@@ -234,7 +251,11 @@ CREATE TABLE sali (
 				WHERE knimi = 'Spinning')
 	ORDER BY o.otunnus ASC;
 	
-	"QUERY 7"
+	"QUERY 7
+	Hae kullekin kategorialle
+	nimi, kategoriaan kuuluvien ryhmäliikuntatuntien lukumäärä,
+	minimikesto ja maksimikesto.
+	"
 	SELECT knimi, count(*) AS lkm, MIN(kesto) AS minkesto, MAX(kesto) AS maxkesto
 	FROM rltunti, kategoria
 	WHERE rltunti.ktunnus = kategoria.ktunnus
